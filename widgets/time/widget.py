@@ -4,8 +4,10 @@ import time
 gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk, GLib
 
+from widgets.base import BaseWidget
+
 @Gtk.Template(filename=os.path.join(os.path.dirname(__file__), 'builder.xml'))
-class Widget(Gtk.Box):
+class Widget(BaseWidget):
     __gtype_name__ = 'TimeWidget'
 
     time_label = Gtk.Template.Child()
@@ -14,7 +16,11 @@ class Widget(Gtk.Box):
         super().__init__(**kwargs)
         self.update_time()
         # Update time every second
-        GLib.timeout_add_seconds(1, self.update_time)
+        self.timeout_id = GLib.timeout_add_seconds(1, self.update_time)
+
+    def destroy_widget(self):
+        if hasattr(self, 'timeout_id'):
+            GLib.source_remove(self.timeout_id)
 
     def update_time(self):
         current_time = time.strftime("%H:%M:%S")

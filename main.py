@@ -57,6 +57,7 @@ class MainTaskbar(Gtk.ApplicationWindow):
         self.right_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self.center_box.set_end_widget(self.right_box)
 
+        self.active_widgets = []
         self.load_widgets_and_css()
 
     def load_widgets_and_css(self):
@@ -80,6 +81,7 @@ class MainTaskbar(Gtk.ApplicationWindow):
                         )
                         
                     self.left_box.append(widget_instance)
+                    self.active_widgets.append(widget_instance)
             except Exception as e:
                 print(f"Failed to load widget {widget}: {e}")
 
@@ -100,6 +102,7 @@ class MainTaskbar(Gtk.ApplicationWindow):
                         )
                         
                     self.right_box.append(widget_instance)
+                    self.active_widgets.append(widget_instance)
             except Exception as e:
                 print(f"Failed to load widget {widget}: {e}")
 

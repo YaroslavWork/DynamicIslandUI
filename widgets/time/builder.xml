@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="TimeWidget" parent="GtkBox">
+  <template class="TimeWidget" parent="BaseWidget">
     <style>
       <class name="time-widget"/>
       <class name="widget"/>
