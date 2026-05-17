@@ -57,9 +57,9 @@ class MainTaskbar(Gtk.ApplicationWindow):
         self.right_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self.center_box.set_end_widget(self.right_box)
 
-        self.load_widgets()
+        self.load_widgets_and_css()
 
-    def load_widgets(self):
+    def load_widgets_and_css(self):
         left_widgets = config.get("widgets", {}).get("left", {}).get("names", [])
         right_widgets = config.get("widgets", {}).get("right", {}).get("names", [])
 
@@ -68,7 +68,18 @@ class MainTaskbar(Gtk.ApplicationWindow):
                 module_path = f"widgets.{widget}.widget"
                 module = importlib.import_module(module_path)
                 if hasattr(module, "Widget"):
-                    self.left_box.append(module.Widget())
+                    widget_instance = module.Widget()
+                    
+                    css_path = f"widgets/{widget}/local.css"
+                    if os.path.exists(css_path):
+                        css_provider = Gtk.CssProvider()
+                        css_provider.load_from_path(css_path)
+                        widget_instance.get_style_context().add_provider(
+                            css_provider,
+                            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+                        )
+                        
+                    self.left_box.append(widget_instance)
             except Exception as e:
                 print(f"Failed to load widget {widget}: {e}")
 
@@ -77,7 +88,18 @@ class MainTaskbar(Gtk.ApplicationWindow):
                 module_path = f"widgets.{widget}.widget"
                 module = importlib.import_module(module_path)
                 if hasattr(module, "Widget"):
-                    self.right_box.append(module.Widget())
+                    widget_instance = module.Widget()
+                    
+                    css_path = f"widgets/{widget}/local.css"
+                    if os.path.exists(css_path):
+                        css_provider = Gtk.CssProvider()
+                        css_provider.load_from_path(css_path)
+                        widget_instance.get_style_context().add_provider(
+                            css_provider,
+                            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+                        )
+                        
+                    self.right_box.append(widget_instance)
             except Exception as e:
                 print(f"Failed to load widget {widget}: {e}")
 
@@ -93,18 +115,6 @@ def load_css():
     except Exception as e:
         print(f"Failed to load main.css: {e}")
         
-    # Connect all the local.css files
-    for widget in config["widgets"]["left"]["names"] + config["widgets"]["right"]["names"]:
-        try:
-            css_provider = Gtk.CssProvider()
-            css_provider.load_from_path(f"widgets/{widget}/local.css")
-            Gtk.StyleContext.add_provider_for_display(
-                Gdk.Display.get_default(),
-                css_provider,
-                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-            )
-        except Exception as e:
-            print(f"Failed to load local.css: {e}")
 
     # Load dynamic CSS from config
     try:
