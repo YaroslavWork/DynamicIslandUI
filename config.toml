@@ -5,7 +5,7 @@ margin_side_edge = 10
 
 [widget_default]
 height = 40
-border_radius = 0
+border_radius = 12
 
 [clock]
 format = "%H:%M:%S"
