@@ -1,0 +1,13 @@
+[general]
+anchor = "bottom" # "top" or "bottom"
+margin_edge = 5
+margin_side_edge = 10
+
+[widget_default]
+height = 40
+
+[clock]
+format = "%H:%M:%S"
+
+[date]
+format = "%A, %d %B %Y"

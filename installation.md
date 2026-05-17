@@ -28,5 +28,5 @@
 
 If all set and ready, run the main script:
 ```bash
-    python main.py
+    LD_PRELOAD=/usr/lib/libgtk4-layer-shell.so ./.venv/bin/python main.py
 ```
