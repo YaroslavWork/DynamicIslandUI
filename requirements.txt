@@ -1,0 +1,7 @@
+cffi==2.0.0
+numpy==2.4.5
+pycairo==1.29.0
+pycparser==3.0
+PyGObject==3.56.3
+rendercanvas==2.6.3
+wgpu==0.31.0
