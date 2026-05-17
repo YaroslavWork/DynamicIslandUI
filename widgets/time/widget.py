@@ -7,6 +7,7 @@ class Widget(Gtk.Box):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.add_css_class("time-widget")
+        self.add_css_class("widget")
         self.label = Gtk.Label()
         self.append(self.label)
         self.update_time()

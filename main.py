@@ -106,6 +106,23 @@ def load_css():
         except Exception as e:
             print(f"Failed to load local.css: {e}")
 
+    # Load dynamic CSS from config
+    try:
+        border_radius = config.get("widget_default", {}).get("border_radius", 12)
+        dynamic_css = f".widget {{ border-radius: {border_radius}px; }}"
+        dynamic_provider = Gtk.CssProvider()
+        try:
+            dynamic_provider.load_from_string(dynamic_css)
+        except AttributeError:
+            dynamic_provider.load_from_data(dynamic_css.encode('utf-8'))
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
+            dynamic_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+    except Exception as e:
+        print(f"Failed to load dynamic CSS: {e}")
+
 def on_activate(app):
     load_css()
     win = MainTaskbar(application=app)
