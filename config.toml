@@ -7,7 +7,7 @@ margin_side_edge = 10
 height = 40
 border_radius = 12
 
-[clock]
+[time]
 format = "%H:%M:%S"
 
 [date]

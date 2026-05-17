@@ -10,6 +10,7 @@
 ### Inside widget.py you must to stick to this rule:
 - The class name must be: Widget(BaseWidget) and you must import it: from widgets.base import BaseWidget.
 - In the widget class, you must add a __init__ method and call super().__init__(**kwargs).
+- In config.toml file in [widgetName] table add all parameters of your widget.
 - In builder.xml you must define a <template class="Widget" parent="BaseWidget">
 - You must to use @Gtk.Template(filename=os.path.join(os.path.dirname(__file__), 'builder.xml')).
 - You must to use __gtype_name__ = '[widgetName]Widget'

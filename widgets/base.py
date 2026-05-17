@@ -5,8 +5,9 @@ from gi.repository import Gtk
 class BaseWidget(Gtk.Box):
     __gtype_name__ = 'BaseWidget'
 
-    def __init__(self, **kwargs):
+    def __init__(self, config=None, **kwargs):
         super().__init__(**kwargs)
+        self.config = config or {}
 
     def update(self):
         """Update the widget state. Override in subclasses."""

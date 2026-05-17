@@ -69,7 +69,7 @@ class MainTaskbar(Gtk.ApplicationWindow):
                 module_path = f"widgets.{widget}.widget"
                 module = importlib.import_module(module_path)
                 if hasattr(module, "Widget"):
-                    widget_instance = module.Widget()
+                    widget_instance = module.Widget(config=config.get(widget, {}))
                     
                     css_path = f"widgets/{widget}/local.css"
                     if os.path.exists(css_path):
@@ -90,7 +90,7 @@ class MainTaskbar(Gtk.ApplicationWindow):
                 module_path = f"widgets.{widget}.widget"
                 module = importlib.import_module(module_path)
                 if hasattr(module, "Widget"):
-                    widget_instance = module.Widget()
+                    widget_instance = module.Widget(config=config.get(widget, {}))
                     
                     css_path = f"widgets/{widget}/local.css"
                     if os.path.exists(css_path):

@@ -12,8 +12,8 @@ class Widget(BaseWidget):
 
     time_label = Gtk.Template.Child()
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, config=None, **kwargs):
+        super().__init__(config=config, **kwargs)
         self.update_time()
         # Update time every second
         self.timeout_id = GLib.timeout_add_seconds(1, self.update_time)
@@ -23,6 +23,7 @@ class Widget(BaseWidget):
             GLib.source_remove(self.timeout_id)
 
     def update_time(self):
-        current_time = time.strftime("%H:%M:%S")
+        format_string = self.config.get("format", "%H:%M:%S")
+        current_time = time.strftime(format_string)
         self.time_label.set_label(current_time)
         return True # Return True to keep the timeout active
