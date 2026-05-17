@@ -1,6 +1,7 @@
 import sys
 import os
 from datetime import datetime
+import importlib
 
 from settings import config
 
@@ -13,7 +14,6 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Gtk4LayerShell", "1.0")
 
 from gi.repository import Gtk, Gtk4LayerShell, GLib, Gdk
-
 class MainTaskbar(Gtk.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -48,7 +48,66 @@ class MainTaskbar(Gtk.ApplicationWindow):
         height = config.get("widget_default", {}).get("height", 40)
         self.set_default_size(0, height)
 
+        self.center_box = Gtk.CenterBox()
+        self.set_child(self.center_box)
+
+        self.left_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        self.center_box.set_start_widget(self.left_box)
+
+        self.right_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        self.center_box.set_end_widget(self.right_box)
+
+        self.load_widgets()
+
+    def load_widgets(self):
+        left_widgets = config.get("widgets", {}).get("left", {}).get("names", [])
+        right_widgets = config.get("widgets", {}).get("right", {}).get("names", [])
+
+        for widget in left_widgets:
+            try:
+                module_path = f"widgets.{widget}.widget"
+                module = importlib.import_module(module_path)
+                if hasattr(module, "Widget"):
+                    self.left_box.append(module.Widget())
+            except Exception as e:
+                print(f"Failed to load widget {widget}: {e}")
+
+        for widget in right_widgets:
+            try:
+                module_path = f"widgets.{widget}.widget"
+                module = importlib.import_module(module_path)
+                if hasattr(module, "Widget"):
+                    self.right_box.append(module.Widget())
+            except Exception as e:
+                print(f"Failed to load widget {widget}: {e}")
+
+def load_css():
+    css_provider = Gtk.CssProvider()
+    try:
+        css_provider.load_from_path('main.css')
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+    except Exception as e:
+        print(f"Failed to load main.css: {e}")
+        
+    # Connect all the local.css files
+    for widget in config["widgets"]["left"]["names"] + config["widgets"]["right"]["names"]:
+        try:
+            css_provider = Gtk.CssProvider()
+            css_provider.load_from_path(f"widgets/{widget}/local.css")
+            Gtk.StyleContext.add_provider_for_display(
+                Gdk.Display.get_default(),
+                css_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            )
+        except Exception as e:
+            print(f"Failed to load local.css: {e}")
+
 def on_activate(app):
+    load_css()
     win = MainTaskbar(application=app)
     win.present()
 

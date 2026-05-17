@@ -5,9 +5,16 @@ margin_side_edge = 10
 
 [widget_default]
 height = 40
+border_radius = 12
 
 [clock]
 format = "%H:%M:%S"
 
 [date]
 format = "%A, %d %B %Y"
+
+[widgets.left]
+names = []
+
+[widgets.right]
+names = ["time"]
