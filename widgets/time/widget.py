@@ -1,9 +1,8 @@
+import os
 import gi
 import time
 gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk, GLib
-
-import os
 
 @Gtk.Template(filename=os.path.join(os.path.dirname(__file__), 'builder.xml'))
 class Widget(Gtk.Box):
