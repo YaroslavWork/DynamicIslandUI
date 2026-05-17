@@ -15,6 +15,7 @@
 - You must to use @Gtk.Template(filename=os.path.join(os.path.dirname(__file__), 'builder.xml')).
 - You must to use __gtype_name__ = '[widgetName]Widget'
 - You can add some styling for the widget in local.css inside the widget folder.
+- To run heavy tasks without freezing the UI, use `self.run_in_background(task_func, callback_func)`.
 
 ### After creating the widget, you must to add it to the config.toml file:
 ```toml
