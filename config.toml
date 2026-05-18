@@ -2,6 +2,7 @@
 anchor = "bottom" # "top" or "bottom"
 margin_edge = 5
 margin_side_edge = 10
+space_between_widgets = 5
 
 [widget_default]
 height = 40
@@ -14,7 +15,7 @@ format = "%H:%M:%S"
 format = "%A, %d %B %Y"
 
 [widgets.left]
-names = []
+names = ["time", "time", "time", "time"]
 
 [widgets.right]
 names = ["time"]

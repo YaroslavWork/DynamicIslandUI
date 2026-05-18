@@ -70,16 +70,6 @@ class MainTaskbar(Gtk.ApplicationWindow):
                 module = importlib.import_module(module_path)
                 if hasattr(module, "Widget"):
                     widget_instance = module.Widget(config=config.get(widget, {}))
-                    
-                    css_path = f"widgets/{widget}/local.css"
-                    if os.path.exists(css_path):
-                        css_provider = Gtk.CssProvider()
-                        css_provider.load_from_path(css_path)
-                        widget_instance.get_style_context().add_provider(
-                            css_provider,
-                            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-                        )
-                        
                     self.left_box.append(widget_instance)
                     self.active_widgets.append(widget_instance)
             except Exception as e:
@@ -91,16 +81,6 @@ class MainTaskbar(Gtk.ApplicationWindow):
                 module = importlib.import_module(module_path)
                 if hasattr(module, "Widget"):
                     widget_instance = module.Widget(config=config.get(widget, {}))
-                    
-                    css_path = f"widgets/{widget}/local.css"
-                    if os.path.exists(css_path):
-                        css_provider = Gtk.CssProvider()
-                        css_provider.load_from_path(css_path)
-                        widget_instance.get_style_context().add_provider(
-                            css_provider,
-                            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-                        )
-                        
                     self.right_box.append(widget_instance)
                     self.active_widgets.append(widget_instance)
             except Exception as e:
