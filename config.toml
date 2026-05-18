@@ -18,4 +18,4 @@ format = "%A, %d %B %Y"
 names = ["time", "time", "time", "time"]
 
 [widgets.right]
-names = ["time"]
+names = ["time", "time", "time", "time"]

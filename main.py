@@ -51,10 +51,12 @@ class MainTaskbar(Gtk.ApplicationWindow):
         self.center_box = Gtk.CenterBox()
         self.set_child(self.center_box)
 
-        self.left_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        space_between_widgets = config.get("general", {}).get("space_between_widgets", 0)
+
+        self.left_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=space_between_widgets)
         self.center_box.set_start_widget(self.left_box)
 
-        self.right_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        self.right_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=space_between_widgets)
         self.center_box.set_end_widget(self.right_box)
 
         self.active_widgets = []
