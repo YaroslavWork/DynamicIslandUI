@@ -25,3 +25,39 @@ names = ["widgetName"]
 [widgets.right]
 names = ["widgetName"]
 ```
+
+## To communicate with Dynamic Island:
+
+We use the global `EventBus` to emit signals. All payloads should be dictionaries.
+
+**Core Signals:**
+- `island:resize` - `{"name": "widgetName", "width": 200, "height": 50}`
+  *(Requests the main island to resize to accommodate this widget)*
+- `island:connect` - `{"name": "widgetName"}`
+  *(Announces the widget is ready)*
+- `island:disconnect` - `{"name": "widgetName"}`
+  *(Closes or hides the widget)*
+- `island:duration` - `{"name": "widgetName", "duration_ms": 3000}`
+  *(Sets how long the widget should stay visible; -1 for infinite)*
+
+**Data & Context Signals:**
+bus.emit("island:build_widget", {
+    "name": "widgetName",
+    "xml": """
+        <interface>
+            <object class="GtkBox" id="root_box">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">10</property>
+                <child>
+                    <object class="GtkImage" id="icon"/>
+                </child>
+                <child>
+                    <object class="GtkLabel" id="title"/>
+                </child>
+            </object>
+        </interface>
+    """,
+    "css": "#root_box { background-color: black; border-radius: 20px; padding: 10px; }"
+})
+- `island:update_context` - `{"name": "widgetName", "data": {"title": "...", "value": 100}}`
+  *(Passes dynamic runtime data to a widget so it can update its GTK UI elements)*
